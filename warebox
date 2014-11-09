@@ -1,0 +1,58 @@
+#vim: set syntax=sh
+
+if [ "$1" == "new" ]; then
+    if [ "$2" ]; then # new box name
+        if [ "$3" ]; then # base box name
+
+            echo 'create new vbox called ' $2 'based on' $3
+            VBoxManage clonevm $3 --mode machine --name $2 --register
+
+            echo 'ssh port forwarding set to 2200'
+            VBoxManage modifyvm $2 --natpf1 "ssh,tcp,,2200,,22"
+
+        else
+            echo 'missing the name of the base virtualbox for cloning process'
+        fi
+    else
+        echo 'missing the name of the new virtualbox'
+    fi
+fi
+
+if [ "$1" == "up" ]; then
+    if [ "$2" ]; then
+        VBoxManage startvm $2 --type headless
+    else
+        echo 'missing the name of virtualbox'
+    fi
+fi
+
+if [ "$1" == "down" ]; then
+    if [ "$2" ]; then
+        VBoxManage controlvm $2 poweroff
+    else
+        echo 'missing the name of virtualbox'
+    fi
+fi
+
+if [ "$1" == "ssh" ]; then
+    if [ "$2" ]; then
+        $port=$(VBoxManage showvminfo nginxphp --details | grep ssh | cut -d ',' -f 4 | cut -d '=' -f 2 | sed 's/\ //')
+        if [ "$port" ]; then
+            ssh $2@127.0.0.1 -p $port
+        else
+            ssh $2@127.0.0.1 -p 2200
+        fi
+    else
+        echo 'missing the name of virtualbox'
+    fi
+fi
+
+if [ "$1" == "config" ]; then
+    if [ "$2" == "ssh" ]; then
+        if [ "$3" ]; then
+            VBoxManage showvminfo $3 --details | grep ssh | cut -d ' ' -f 6- | sed 's/ \= /\=/g'
+        fi
+    else
+        echo 'unknow configuration name :('
+    fi
+fi
