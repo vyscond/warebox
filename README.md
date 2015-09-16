@@ -1,50 +1,33 @@
-```
-      +------------------------------- +
-     /                                /|
-    /                                / |
-   /                                /  |
-  /                                /   |
- /                                /    +
-/                                /   / |
-+-------------------------------+   /  +
-|                               |  /   /
-|           Warebox             | /   /
-|                               |/   /
-+-------------|x|---------------+   /
-|                               |  /
-|                               | /
-|                               |/
-+-------------------------------+
-
-```
 # Warebox
 
-Simple alias to humans manage their virtualbox. It aims to provide the same workflow from [vagrant](http://www.vagrantup.com) but without cloud-based storage or ruby dependecy.
+## About
 
-# Installation
+A small set of alias from VirtualBox commandlines 
+
+## Installation
     
     git clone https://github.com/vyscond/warebox.git
     cd warebox
     sudo make install
 
-# Usage
+## Usage
 
-create clone vm
+### Clone vm
 
     warebox new [new_vm_name] [base_existing_vm_name]
 
-start vm
+### Start/boot/run a  vm
 
-    warebox up [vm_name]
+    warebox [vm_name] boot
 
-shutdown vm
+### Shutdown/poweroff vm
 
-    warebox down [vm_name]
+    warebox [vm_name] off
 
-connect ssh
+### Connect ssh
 
-    warebox ssh [vm_name]
+    warebox [vm_name] ssh [vm_user]
 
-check config about ssh
+#### check config about ssh
 
-    warebox config ssh [vbox_name]
+    warebox [vbox_name] config ssh 
