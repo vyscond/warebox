@@ -1,7 +1,7 @@
 install:
-	@touch /usr/bin/warebox
-	@cat warebox.sh > /usr/bin/warebox
-	@chmod 755 /usr/bin/warebox
+	@touch /usr/local/bin/warebox
+	@cat warebox.sh > /usr/local/bin/warebox
+	@chmod 755 /usr/local/bin/warebox
 	@echo 'warebox was installed'
 
 uninstall:

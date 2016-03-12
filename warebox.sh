@@ -18,29 +18,42 @@ if [ "$1" == "new" ]; then
     fi
 fi
 
-if [ "$1" ]; then # virtualbox name
-    if [ "$2" == "boot" ]; then #
+# virtualbox name
+if [ "$1" ]; then 
+
+    if [ "$2" == "boot" ]; then
+        
         VBoxManage startvm $1 --type headless
+
     elif [ "$2" == "off" ]; then
+        
         VBoxManage controlvm $1 poweroff
+
     elif [ "$2" == "ssh" ]; then
+        
         # - ssh user
         if [ "$3" ]; then
             port=$(VBoxManage showvminfo $1 --details | grep 'SSH\|ssh' | cut -d ',' -f 4 | cut -d '=' -f 2 | sed 's/\ //')
             if [ -z "$port" ]; then
                 port=2200
+            fi
             echo "[warebox] trying accessing $1 machine trought $3@127.0.0.1:$port"
             ssh $3@127.0.0.1 -p $port
         else
             echo '[warebox] missing ssh user'
         fi
+
     elif [ "$2" == "config" ]; then
+        
         if [ "$3" == "ssh" ]; then
             VBoxManage showvminfo $1 --details | grep 'SSH\|ssh' | cut -d ' ' -f 6- | sed 's/ \= /\=/g'
         else
             echo 'unknow configuration name :('
             VBoxManage showvminfo $1 --details
         fi
+
     fi
 fi
-exit 0
+
+#exit 0
+
